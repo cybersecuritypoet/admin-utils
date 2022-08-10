@@ -3,8 +3,8 @@
   template:
     dest: "/etc/systemd/system/{{gitea_service_name}}.service"
     src: "gitead.service"
-    owner: "{{ splunk_user }}"
-    group: "{{ splunk_group }}"
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_group }}"
     mode: "0600"
 
 - name: Set service memory limit
