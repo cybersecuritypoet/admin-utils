@@ -1,0 +1,53 @@
+---
+- name: Create group for Gitea
+  group:
+    name: "{{ gitea_group }}"
+    state: present
+
+- name: Create user for Gitea
+  user:
+    name: "{{ gitea_user }}"
+    comment: "Gitea software / git version control"
+    group: "{{ gitea_group }}"
+    state: present
+    home: "{{ gitea_home }}"
+    system: true
+    password_lock: true
+    shell: /usr/bin/false
+
+- name: Create directories for Gitea
+  file:
+    path: "/root/splunk_install_pkg"
+    state: directory
+
+- name: Create /var/lib directories for Gitea
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_group }}"
+    state: directory
+    mode: u=rwx,g=rx
+  loop:
+    - "/var/lib/gitea/custom"
+    - "/var/lib/gitea/data"
+    - "/var/lib/gitea/log"
+      
+- name: Create /etc directories for Gitea
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "root"
+    group: "{{ gitea_group }}"
+    state: directory
+    mode: u=rwx,g=rwx
+  loop:
+    - "/etc/gitea"
+
+- name: Create /opt directories for Gitea
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_group }}"
+    state: directory
+    mode: u=rwx,g=rx
+  loop:
+    - "/opt/gitea"

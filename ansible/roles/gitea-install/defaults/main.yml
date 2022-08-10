@@ -1,0 +1,14 @@
+---
+
+ansible_become: true
+
+gitea_user: gitea
+gitea_group: gitea
+gitea_home: /opt/gitea
+gitea_service_name: gitead
+
+gitea_service_limit_memory: "2G"
+gitea_service_limit_nofile: 64000
+gitea_service_limit_nproc: 16000
+gitea_service_limit_tasks: 256
+

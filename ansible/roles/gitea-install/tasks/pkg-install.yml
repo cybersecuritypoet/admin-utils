@@ -1,0 +1,13 @@
+---
+- name: Push installation package
+  copy:
+    src: "{{ gitea_package_path }}"
+    dest: "/opt/gitea/gitea"
+
+- name: Fix permissions and ownership
+  file:
+    path: "/opt/gitea"
+    owner: "{{ gitea_user }}"
+    group: "{{ gitea_group }}"
+    state: directory
+    recurse: true

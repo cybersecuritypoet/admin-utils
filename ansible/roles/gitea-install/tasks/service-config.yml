@@ -1,0 +1,46 @@
+---
+- name: Add systemd (yuk) service
+  template:
+    dest: "/etc/systemd/system/{{gitea_service_name}}.service"
+    src: "gitead.service"
+    owner: "{{ splunk_user }}"
+    group: "{{ splunk_group }}"
+    mode: "0600"
+
+- name: Set service memory limit
+  community.general.ini_file:
+    path: "/etc/systemd/system/{{gitea_service_name}}.service"
+    section: Service
+    option: MemoryLimit
+    value: "{{gitea_service_limit_memory}}"
+    state: present
+
+- name: Set file limit
+  community.general.ini_file:
+    path: "/etc/systemd/system/{{gitea_service_name}}.service"
+    section: Service
+    option: LimitNPROC
+    value: "{{gitea_service_limit_nofile}}"
+    state: present
+
+- name: Set process limit
+  community.general.ini_file:
+    path: "/etc/systemd/system/{{gitea_service_name}}.service"
+    section: Service
+    option: LimitNPROC
+    value: "{{gitea_service_limit_nproc}}"
+    state: present
+
+- name: Set tasks limit
+  community.general.ini_file:
+    path: "/etc/systemd/system/{{gitea_service_name}}.service"
+    section: Service
+    option: TasksMax
+    value: "{{gitea_service_limit_tasks}}"
+    state: present
+
+- name: Reload Systemd daemons
+  systemd:
+    name: "{{gitea_service_name}}"
+    daemon_reload: true
+    state: reloaded
