@@ -2,6 +2,8 @@
 
 ansible_become: true
 
+gitea_title: "Gitea - GIT source control"
+gitea_fqdn: "gitea.local"
 gitea_user: gitea
 gitea_group: gitea
 gitea_home: /opt/gitea
