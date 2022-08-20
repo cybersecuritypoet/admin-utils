@@ -1,0 +1,13 @@
+[Unit]
+Description=Start iostat-stats at startup
+Requires=rsyslog.service
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/opt/scripts/iostat-stats.sh
+TimeoutStartSec=0
+
+
+[Install]
+WantedBy=default.target
