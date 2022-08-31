@@ -1,5 +1,11 @@
 #!/bin/bash
-exec 3< <(iostat -dxy 5 | awk '
+IOSTAT="/usr/bin/iostat"
+INTERVAL=5
+FACILITY="local5"
+SEVERITY="info"
+TAG="iostat-stats"
+SOCKET="/var/run/rsyslogd/iostat-stats.sock"
+exec 3< <(iostat -dxy $INTERVAL | awk '
 /^Device/ {
     gsub(":", "")
     gsub("/", "_") 
@@ -16,5 +22,5 @@ exec 3< <(iostat -dxy 5 | awk '
     printf "}\n"
 }')
 while read line; do
-	logger -e -p "local5.info" -t "iostat-stats" --socket "/var/run/rsyslogd/iostat-stats.sock" "$line"
+	logger -e -p "$FACILITY.$SEVERITY" -t "$TAG" --socket "$SOCKET" "$line"
 done <&3
