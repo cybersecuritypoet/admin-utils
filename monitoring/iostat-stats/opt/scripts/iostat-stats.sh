@@ -27,6 +27,5 @@ while read line; do
 if [[ $line =~ $MATCH ]];
 then
 	logger -e -p "$FACILITY.$SEVERITY" -t "$TAG" --socket "$SOCKET" "$line"
-	echo "$line"
 fi
 done <&3
